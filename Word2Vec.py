@@ -24,7 +24,6 @@ class Word2Vec:
             self.word_count()
             self.build_model()
             self.train_model()
-            self.save_model()
     def word_count(self): #统计词频，过滤低频词
         for total,t in enumerate(self.train_data):
             for w in t:
