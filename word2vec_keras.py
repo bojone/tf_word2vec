@@ -69,14 +69,17 @@ def data_generator(): #数据生成器
                 x,y = [],[]
                 _ = 0
 
+#CBOW输入
 input_words = Input(shape=(window*2,), dtype='int32')
 input_vecs = Embedding(nb_word, word_size, name='word2vec')(input_words)
 input_vecs_sum = Lambda(lambda x: K.sum(x, axis=1))(input_vecs) #CBOW模型，直接将上下文词向量求和
 
+#构造随机负样本，与目标组成抽样
 target_word = Input(shape=(1,), dtype='int32')
 negatives = Lambda(lambda x: K.random_uniform((K.shape(x)[0], nb_negative), 0, nb_word, 'int32'))(target_word)
 samples = Lambda(lambda x: K.concatenate(x))([target_word,negatives]) #构造抽样，负样本随机抽。负样本也可能抽到正样本，但概率小。
 
+#只在抽样内做Dense和softmax
 softmax_weights = Embedding(nb_word, word_size, name='W')(samples)
 softmax_biases = Embedding(nb_word, 1, name='b')(samples)
 softmax = Lambda(lambda x: 
