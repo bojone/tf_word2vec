@@ -49,7 +49,7 @@ subsamples = {i:j/total for i,j in words.items() if j/total > subsample_t}
 subsamples = {i:subsample_t/j+(subsample_t/j)**0.5 for i,j in subsamples.items()} #这个降采样公式，是按照word2vec的源码来的
 subsamples = {word2id[i]:j for i,j in subsamples.items() if j < 1.} #降采样表
 
-def data_generator(): #数据生成器
+def data_generator(): #训练数据生成器
     while True:
         x,y = [],[]
         _ = 0
